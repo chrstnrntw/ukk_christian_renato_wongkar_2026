@@ -1,66 +1,173 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Aplikasi Peminjaman Buku
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web untuk membantu mengelola data buku dan transaksi peminjaman perpustakaan. Panel administrasi dibangun menggunakan Laravel dan Filament.
 
-## About Laravel
+## Fitur
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Login dan pendaftaran melalui panel Filament.
+- Pengelolaan data buku, pengguna, dan peminjaman melalui panel admin.
+- Pencatatan tanggal pinjam, jatuh tempo, tanggal pengembalian, status, dan denda.
+- Daftar peminjaman siswa dibatasi ke data milik siswa tersebut.
+- Contoh akun dan data awal melalui database seeder.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+> Aplikasi saat ini berpusat pada panel Filament dan belum memiliki halaman katalog publik terpisah untuk siswa.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Teknologi
 
-## Learning Laravel
+- PHP 8.2 atau lebih baru
+- Laravel 12
+- Filament 4
+- MySQL/MariaDB atau SQLite
+- Composer
+- Node.js dan npm (untuk membangun aset frontend)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Instalasi dan menjalankan aplikasi
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. Clone repository dan masuk ke folder proyek:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+   ```bash
+   git clone https://github.com/USERNAME/NAMA-REPOSITORY.git
+   cd NAMA-REPOSITORY
+   ```
 
-## Laravel Sponsors
+2. Pasang dependency PHP dan buat file konfigurasi lokal:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+   ```bash
+   composer install
+   ```
 
-### Premium Partners
+   Jika `.env` belum ada, salin `.env.example` menjadi `.env` (PowerShell):
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+   ```powershell
+   Copy-Item .env.example .env
+   ```
 
-## Contributing
+3. Buat application key:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+   ```bash
+   php artisan key:generate
+   ```
 
-## Code of Conduct
+4. Atur koneksi database di `.env`. Contoh untuk MySQL lokal (sesuaikan username, password, dan port dengan Laragon/XAMPP):
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+   ```dotenv
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=peminjaman_buku
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
-## Security Vulnerabilities
+   Buat database `peminjaman_buku` terlebih dahulu dan pastikan layanan MySQL berjalan. Jangan unggah `.env` ke GitHub.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. Buat tabel dan data contoh:
 
-## License
+   ```bash
+   php artisan migrate --seed
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+   Seeder membuat akun contoh dan beberapa buku. Jalankan pada database baru; menjalankan seeder lagi dapat gagal karena email akun contoh sudah terdaftar.
+
+6. (Opsional) Pasang dan bangun aset frontend:
+
+   ```bash
+   npm install
+   npm run build
+   ```
+
+7. Jalankan server pengembangan:
+
+   ```bash
+   php artisan serve
+   ```
+
+8. Buka panel di `http://127.0.0.1:8000/admin`.
+
+### Akun contoh
+
+| Peran | Email | Kata sandi |
+|---|---|---|
+| Admin | `admin@perpus.test` | `password` |
+| Siswa | `siswa@perpus.test` | `password` |
+
+Akun ini hanya untuk pengembangan dan pengujian lokal. Ganti kata sandi dan jangan gunakan kredensial contoh di server publik.
+
+## Prosedur penggunaan
+
+1. Login ke `/admin`.
+2. Buka menu **Books** untuk menambah atau mengelola data buku.
+3. Buka menu **Users** untuk mengelola akun pengguna (admin).
+4. Buka menu **Loans** untuk melihat atau mencatat transaksi peminjaman.
+5. Isi pengguna, buku, tanggal pinjam, dan tanggal jatuh tempo saat membuat transaksi.
+6. Gunakan aksi pengembalian pada transaksi yang masih berstatus `dipinjam`. Sistem menandai transaksi sebagai `dikembalikan` dan menghitung denda Rp1.000 per hari keterlambatan.
+
+## Struktur database (ERD)
+
+```mermaid
+erDiagram
+    USERS ||--o{ LOANS : melakukan
+    BOOKS ||--o{ LOANS : dipinjam
+
+    USERS {
+        bigint id PK
+        string name
+        string email UK
+        string role
+        string kelas
+        string password
+    }
+
+    BOOKS {
+        bigint id PK
+        string title
+        string author
+        string publisher
+        integer year
+        integer stock
+    }
+
+    LOANS {
+        bigint id PK
+        bigint user_id FK
+        bigint book_id FK
+        date loan_date
+        date due_date
+        date returned_at
+        string status
+        integer fine
+    }
+```
+
+`loans.user_id` merujuk ke `users.id`, sedangkan `loans.book_id` merujuk ke `books.id`. Satu pengguna atau buku dapat memiliki banyak catatan peminjaman. Struktur lengkap termasuk tabel pendukung Laravel tersedia di `database/migrations`.
+
+## Database SQL
+
+Migration Laravel merupakan sumber struktur database aplikasi. Untuk membuat dump SQL MySQL/MariaDB setelah database diisi:
+
+```bash
+mysqldump -u root -p peminjaman_buku > database/peminjaman_buku.sql
+```
+
+Masukkan kata sandi MySQL saat diminta. Periksa dan sanitasi dump sebelum mengunggahnya; jangan sertakan data pribadi atau kredensial. File dump tidak menggantikan migration.
+
+## Pemecahan masalah
+
+- **Koneksi database ditolak (`SQLSTATE[HY000] [2002]`)**: pastikan MySQL berjalan dan nilai `DB_HOST`, `DB_PORT`, nama database, serta kredensial di `.env` benar. Setelah mengubah `.env`, jalankan `php artisan config:clear`.
+- **Database tidak ditemukan**: buat database sesuai `DB_DATABASE`, lalu jalankan `php artisan migrate --seed`.
+- **Login gagal**: pastikan seeder sudah dijalankan pada database yang sedang digunakan. Akun contoh di atas hanya tersedia setelah `php artisan db:seed` berhasil.
+- **Tabel tidak ditemukan**: jalankan `php artisan migrate` dan periksa status dengan `php artisan migrate:status`.
+- **Alamat localhost menolak koneksi**: jalankan `php artisan serve`, lalu buka alamat yang ditampilkan di terminal. phpMyAdmin memerlukan web server Apache/Nginx terpisah.
+- **Perubahan konfigurasi tidak terbaca**: jalankan `php artisan config:clear`, lalu mulai ulang server pengembangan.
+
+## Pengembangan dan pengujian
+
+Jalankan pengujian otomatis dengan:
+
+```bash
+php artisan test
+```
+
+## Lisensi
+
+Proyek ini dibuat untuk keperluan pembelajaran. Laravel dan Filament adalah perangkat lunak open-source yang memiliki lisensi masing-masing.
